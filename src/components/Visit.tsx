@@ -31,13 +31,12 @@ export default function Visit() {
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.7, ease: EASE }}
       >
-        <p className="eyebrow">Come and be measured</p>
-        <h2 className="band__title" id="visit-title">
-          Find us in <em>Suideroord</em>
+        <h2 className="visit__heading" id="visit-title">
+          Getting here
         </h2>
         <p className="band__lede">
-          The shop is on Cilliers Street in Suideroord, Johannesburg South. Message before you come
-          and David will have options waiting in your size, which turns a browse into a fitting.
+          Parking is on the street outside. If the door is locked during trading hours, ring the
+          number below and David will come through.
         </p>
 
         <div className="visit__actions">

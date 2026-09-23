@@ -1,0 +1,106 @@
+/* ---------------------------------------------------------------------------
+   Home-page routing cards. Three across on desktop, one column on a phone,
+   where each card becomes a wide banner rather than a shrunken tile.
+   --------------------------------------------------------------------------- */
+
+.teasers__grid {
+  margin-top: clamp(30px, 3.6vw, 56px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(14px, 1.4vw, 22px);
+}
+
+.teaser {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line-soft);
+  border-radius: clamp(8px, 0.8vw, 12px);
+  overflow: hidden;
+  background: rgba(32, 32, 32, 0.4);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out);
+}
+
+.teaser:hover {
+  border-color: var(--copper);
+  background: rgba(180, 128, 92, 0.08);
+}
+
+.teaser__shot {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--ink-plate);
+}
+
+.teaser__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 28%;
+  transition: transform 0.7s var(--ease-out);
+}
+
+.teaser:hover .teaser__shot img {
+  transform: scale(1.05);
+}
+
+.teaser__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: clamp(18px, 1.8vw, 26px);
+}
+
+.teaser__eyebrow {
+  font-size: clamp(10px, 0.8vw, 11.5px);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--copper-bright);
+}
+
+.teaser__title {
+  margin-top: clamp(8px, 0.9vw, 12px);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.2rem, 1.5vw, 1.55rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.teaser__text {
+  margin-top: clamp(8px, 0.9vw, 12px);
+  flex: 1;
+  font-size: clamp(13.5px, 1.05vw, 15.5px);
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.teaser__go {
+  margin-top: clamp(14px, 1.4vw, 20px);
+  font-size: clamp(11px, 0.85vw, 12.5px);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper-bright);
+}
+
+@media (max-width: 620px) {
+  /* A 4:3 crop stacked three deep makes the page very long on a phone; a
+     letterbox keeps each card to a glance. */
+  .teaser__shot {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .teaser,
+  .teaser__shot img {
+    transition: none;
+  }
+
+  .teaser:hover .teaser__shot img {
+    transform: none;
+  }
+}

@@ -119,3 +119,13 @@
     transition: none;
   }
 }
+
+/* Section heading under a page header that already carries the rating as the
+   h1 — deliberately smaller than .band__title so it reads as a subheading. */
+.reviews__heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.4rem, 2.2vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}

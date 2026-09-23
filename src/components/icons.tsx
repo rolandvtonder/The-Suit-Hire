@@ -185,3 +185,12 @@ export function StepBowtie({ className }: IconProps) {
     </svg>
   )
 }
+
+/** Scroll affordance inside the hero's centre badge. */
+export function ArrowDown({ className }: IconProps) {
+  return (
+    <svg className={className} width="14" height="14" viewBox="0 0 14 14" {...base}>
+      <path d="M7 1.4v11.2M2.6 8.4 7 12.8l4.4-4.4" {...stroke} strokeWidth="1.3" />
+    </svg>
+  )
+}

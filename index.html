@@ -6,28 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#141311" />
 
-    <title>The Suit Hire — Tuxedo &amp; Suit Rentals, Johannesburg South</title>
-    <meta
-      name="description"
-      content="Tuxedo and suit hire for weddings, matric dances and formal occasions. Fitted in person by David in Suideroord, Johannesburg South. 5.0 from 85 Google reviews."
-    />
-    <!-- TODO: when a custom domain is registered, change these four absolute
-         URLs and set `base` back to '/' in vite.config.ts. -->
+    <title>The Suit Hire — Tuxedo & Suit Rentals, Johannesburg South</title>
+    <meta name="description" content="Tuxedo and suit hire for weddings, matric dances and formal occasions. Fitted in person by David in Suideroord, Johannesburg South. 5.0 from 85 Google reviews." />
+    <!-- TODO: when a custom domain is registered, change SITE in the page
+         generator and set `base` back to '/' in vite.config.ts. -->
     <link rel="canonical" href="https://rolandvtonder.github.io/The-Suit-Hire/" />
 
-    <!-- Open Graph / social sharing -->
-    <meta property="og:type" content="business.business" />
-    <meta property="og:title" content="The Suit Hire — Tuxedo &amp; Suit Rentals, Johannesburg South" />
-    <meta
-      property="og:description"
-      content="Hired for one day. Remembered for life. Suits and tuxedos fitted in person by David in Suideroord."
-    />
     <!-- Social scrapers do not resolve relative paths, so these stay absolute. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="The Suit Hire" />
+    <meta property="og:title" content="The Suit Hire — Tuxedo & Suit Rentals, Johannesburg South" />
+    <meta property="og:description" content="Tuxedo and suit hire for weddings, matric dances and formal occasions. Fitted in person by David in Suideroord, Johannesburg South. 5.0 from 85 Google reviews." />
     <meta property="og:url" content="https://rolandvtonder.github.io/The-Suit-Hire/" />
-    <meta
-      property="og:image"
-      content="https://rolandvtonder.github.io/The-Suit-Hire/photos/hero-party.jpg"
-    />
+    <meta property="og:image" content="https://rolandvtonder.github.io/The-Suit-Hire/photos/hero-party.jpg" />
     <meta property="og:locale" content="en_ZA" />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -37,12 +28,12 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap"
       rel="stylesheet"
     />
-    <link rel="preload" as="image" href="/photos/hero-party.jpg" />
 
     <!--
-      Local-business structured data. This is what lets Google show the star
-      rating, hours and phone number directly in search results, so it has to
-      stay in step with the real Google Business Profile listing.
+      Local-business structured data, on the home page only — repeating it on
+      every page would declare seven businesses. This is what lets Google show
+      the star rating, hours and phone number directly in search results, so it
+      has to stay in step with the real Google Business Profile listing.
     -->
     <script type="application/ld+json">
       {
@@ -89,6 +80,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="src/main.tsx"></script>
   </body>
 </html>

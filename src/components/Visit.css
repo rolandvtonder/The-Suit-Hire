@@ -196,3 +196,12 @@
     transition: none;
   }
 }
+
+/* Subheading under a page header that already carries the h1. */
+.visit__heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.4rem, 2.2vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}

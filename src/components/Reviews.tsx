@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Star } from './icons'
-import { RATING, REVIEW_COUNT, MAPS_URL } from '../site'
+import { REVIEW_COUNT, MAPS_URL } from '../site'
 import './Reviews.css'
 
 const EASE = [0.22, 0.68, 0.32, 1] as const
@@ -42,6 +42,8 @@ const reviews = [
 ]
 
 export default function Reviews() {
+  // The page header above already carries the rating as the h1, so this band
+  // takes a quieter heading rather than saying the same thing twice.
   return (
     <section className="band band--raised reviews" id="reviews" aria-labelledby="reviews-title">
       <motion.div
@@ -51,15 +53,12 @@ export default function Reviews() {
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.7, ease: EASE }}
       >
-        <div>
-          <p className="eyebrow">What people say</p>
-          <h2 className="band__title" id="reviews-title">
-            {RATING} out of five, <em>{REVIEW_COUNT} times over</em>
-          </h2>
-        </div>
+        <h2 className="reviews__heading" id="reviews-title">
+          In their own words
+        </h2>
 
         <a className="reviews__link tap-out" href={MAPS_URL} target="_blank" rel="noopener noreferrer">
-          Read them all on Google
+          Read all {REVIEW_COUNT} on Google
           {/* In the markup rather than a CSS ::after — an element only gets one
               ::after, and this link's is spoken for by the tap-out hit area. */}
           <span aria-hidden="true">&rarr;</span>

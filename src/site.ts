@@ -18,6 +18,38 @@
 */
 export const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
 
+/** Same job as `asset`, for links between the site's own pages. */
+export const url = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
+
+/** The routes, in the order they appear in the navbar and the footer. */
+export const PAGES = [
+  { key: '', label: 'Home', href: '/' },
+  { key: 'weddings', label: 'Weddings', href: '/weddings/' },
+  { key: 'matric', label: 'Matric', href: '/matric/' },
+  { key: 'about', label: 'Meet David', href: '/about/' },
+  { key: 'reviews', label: 'Reviews', href: '/reviews/' },
+  { key: 'faq', label: 'FAQ', href: '/faq/' },
+  { key: 'visit', label: 'Visit', href: '/visit/' },
+] as const
+
+export type PageKey = (typeof PAGES)[number]['key']
+
+/**
+ * Which page is being served, read from the URL.
+ *
+ * Every HTML entry point loads the same bundle, so the path is what decides
+ * what renders. The base prefix is stripped first because in production every
+ * path starts with /The-Suit-Hire/, and a trailing "index.html" is tolerated
+ * for anyone who lands on the file directly.
+ */
+export function currentPageKey(pathname = window.location.pathname): PageKey {
+  const base = import.meta.env.BASE_URL
+  const rest = (pathname.startsWith(base) ? pathname.slice(base.length) : pathname.replace(/^\//, ''))
+    .replace(/index\.html$/, '')
+    .replace(/\/$/, '')
+  return (PAGES.find((p) => p.key === rest)?.key ?? '') as PageKey
+}
+
 export const PHONE_DISPLAY = '083 852 0155'
 export const PHONE_TEL = '+27838520155'
 

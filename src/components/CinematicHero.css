@@ -1,0 +1,501 @@
+/* ---------------------------------------------------------------------------
+   Cinematic hero.
+
+   Desktop: one full-viewport picture with four editorial blocks pinned to the
+   corners of a 2x2 grid and a circular badge at the seam.
+
+   Phone: the quadrant idea does not survive a 390px screen — four corner blocks
+   become four stacked paragraphs with nothing pinning them. So the layout below
+   620px is a plain vertical stack, sized to its content, in the order a
+   customer actually needs: promise, proof, action, then the detail. Crucially
+   it does NOT force 100svh, because that is what left a 91px hole in the middle
+   of the previous hero on a phone.
+   --------------------------------------------------------------------------- */
+
+.cine {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--ink);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Backdrop ------------------------------------------------------------------ */
+
+.cine__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.cine__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  opacity: 0;
+  /* Slow drift so a still photograph reads as footage rather than wallpaper. */
+  transform: scale(1.06);
+  transition: opacity 1.6s var(--ease-out), transform 7s linear;
+}
+
+.cine__frame.is-live {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/*
+  The previous hero's scrim was so heavy the photograph read as an empty black
+  box on a phone. This one is built the other way round: dark enough at the
+  edges to hold white type, but it lets the middle of the picture through.
+*/
+.cine__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(16, 15, 14, 0.88) 0%,
+      rgba(16, 15, 14, 0.42) 26%,
+      rgba(16, 15, 14, 0.3) 50%,
+      rgba(16, 15, 14, 0.62) 78%,
+      rgba(16, 15, 14, 0.92) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(16, 15, 14, 0.72) 0%,
+      rgba(16, 15, 14, 0.24) 34%,
+      rgba(16, 15, 14, 0.2) 66%,
+      rgba(16, 15, 14, 0.7) 100%
+    );
+}
+
+.cine__rule {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.055);
+  pointer-events: none;
+}
+
+/* Quadrants ----------------------------------------------------------------- */
+
+.cine__frame-grid {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  display: grid;
+  /*
+    Not two equal columns. The headline is the longest line on the page and the
+    right-hand blocks are narrow by design, so the left column takes the extra
+    width instead of letting "remembered for life." break and orphan the last
+    word onto a fourth line.
+  */
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-areas:
+    'tl tr'
+    'centre centre'
+    'bl br'
+    'act act';
+  gap: clamp(18px, 2vw, 34px);
+  padding: clamp(92px, 9.6vw, 132px) var(--gutter) clamp(16px, 2vw, 28px);
+}
+
+.cine__quad--tl {
+  grid-area: tl;
+}
+.cine__quad--tr {
+  grid-area: tr;
+  justify-self: end;
+  text-align: right;
+}
+.cine__quad--bl {
+  grid-area: bl;
+  align-self: end;
+}
+.cine__quad--br {
+  grid-area: br;
+  align-self: end;
+  justify-self: end;
+  text-align: right;
+}
+
+.cine__centre {
+  grid-area: centre;
+  display: grid;
+  place-items: center;
+}
+
+/* Type ---------------------------------------------------------------------- */
+
+/*
+  The 4.2rem ceiling is measured, not chosen: "remembered for life." needs about
+  9.25px of width per 1px of font size in Playfair, so 4.2rem asks for ~621px
+  inside the ~690px the left column gets at 1440. At 4.6rem it needed 685px and
+  wrapped, stranding "life." on its own line. The column itself is the only
+  width constraint — no ch cap, which is what was cutting it short before.
+*/
+.cine__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.1rem, 4.6vw, 4.2rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+
+.cine__title span {
+  display: block;
+}
+
+/* White falling into the copper of the logo's flourishes. The solid colour is
+   declared first so the text is still legible if a browser refuses the clip. */
+.cine__title-glow {
+  font-style: italic;
+  color: var(--copper-bright);
+  background: linear-gradient(100deg, #ffffff 0%, #e6cdb4 38%, var(--copper) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cine__lede {
+  margin-top: clamp(14px, 1.5vw, 22px);
+  max-width: 34ch;
+  font-size: clamp(13.5px, 1.05vw, 16px);
+  line-height: 1.6;
+  color: var(--text-soft);
+}
+
+.cine__sub {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.5rem, 2.6vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+}
+
+.cine__sub span {
+  display: block;
+}
+
+.cine__minor {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.15rem, 1.5vw, 1.5rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin-bottom: clamp(8px, 0.9vw, 12px);
+}
+
+/* Small-caps body, the reference's second voice. Generous tracking is what
+   makes it read as a caption rather than shouting. */
+.cine__caps {
+  max-width: 34ch;
+  font-size: clamp(11.5px, 0.78vw, 12.5px);
+  line-height: 1.75;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cine__quad--tr .cine__caps {
+  margin-top: clamp(12px, 1.3vw, 18px);
+  margin-left: auto;
+}
+
+.cine__more {
+  display: inline-block;
+  margin-top: clamp(12px, 1.3vw, 18px);
+  padding-bottom: 3px;
+  font-size: clamp(10.5px, 0.8vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition: color 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+}
+
+.cine__more:hover {
+  color: var(--copper-bright);
+  border-bottom-color: var(--copper-bright);
+}
+
+/* Proof block --------------------------------------------------------------- */
+
+.cine__stars {
+  display: flex;
+  justify-content: flex-end;
+  gap: 3px;
+  color: var(--copper-bright);
+  margin-bottom: clamp(6px, 0.7vw, 10px);
+}
+
+.cine__score {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 6px;
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 0.9;
+}
+
+.cine__score-num {
+  font-size: clamp(3rem, 5.6vw, 5.2rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  /* Lining figures so "5.0" sits square against the rule of the block. */
+  font-variant-numeric: tabular-nums;
+}
+
+.cine__score-of {
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  color: var(--text-muted);
+}
+
+.cine__score-note {
+  margin-top: clamp(8px, 0.9vw, 13px);
+  font-size: clamp(11.5px, 0.9vw, 13.5px);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.cine__score-place {
+  display: block;
+  margin-top: 5px;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--text-muted);
+}
+
+/* Badge --------------------------------------------------------------------- */
+
+.cine__badge {
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  width: clamp(88px, 7.6vw, 110px);
+  height: clamp(88px, 7.6vw, 110px);
+  border-radius: 999px;
+  border: 1px solid var(--line-soft);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  color: var(--text-soft);
+  text-decoration: none;
+  font-size: clamp(11px, 0.85vw, 13px);
+  transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
+}
+
+.cine__badge:hover {
+  border-color: var(--copper);
+  background: rgba(180, 128, 92, 0.12);
+  transform: scale(1.04);
+}
+
+.cine__badge svg {
+  transition: transform 0.3s var(--ease-out);
+}
+
+.cine__badge:hover svg {
+  transform: translateY(3px);
+}
+
+/* Booking bar --------------------------------------------------------------- */
+
+.cine__act {
+  grid-area: act;
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.6vw, 26px);
+  flex-wrap: wrap;
+  margin-top: clamp(8px, 1vw, 16px);
+}
+
+.cine__cta {
+  display: inline-flex;
+  align-items: center;
+  padding-block: clamp(6px, 0.6vw, 9px);
+  padding-left: clamp(8px, 0.9vw, 12px);
+  padding-right: clamp(20px, 1.8vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out);
+}
+
+.cine__cta:hover {
+  border-color: var(--copper-bright);
+  background: rgba(180, 128, 92, 0.16);
+}
+
+.cine__cta-tile {
+  display: grid;
+  place-items: center;
+  width: clamp(40px, 3.3vw, 48px);
+  height: clamp(40px, 3.3vw, 48px);
+  border-radius: 999px;
+  background: var(--copper);
+  color: var(--ink);
+  flex: none;
+}
+
+.cine__cta-label {
+  margin-left: clamp(13px, 1.25vw, 19px);
+  font-size: clamp(11.5px, 1.05vw, 14px);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cine__call {
+  font-size: clamp(13px, 1.05vw, 15px);
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-soft);
+  padding-bottom: 2px;
+  transition: color 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+}
+
+.cine__call:hover {
+  color: var(--copper-bright);
+  border-bottom-color: var(--copper);
+}
+
+/* Responsive ----------------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .cine__rule {
+    display: none;
+  }
+
+  /* The two right-hand blocks stop being a column of their own well before the
+     layout collapses — they just get too narrow to set type in. */
+  .cine__quad--tr,
+  .cine__quad--br {
+    text-align: left;
+    justify-self: start;
+  }
+
+  .cine__quad--tr .cine__caps {
+    margin-left: 0;
+  }
+
+  .cine__stars,
+  .cine__score {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 860px) {
+  /* Single column, and the proof block moves up under the headline where it
+     does its job — a stranger deciding whether to trust the shop. */
+  .cine__frame-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+      'tl'
+      'br'
+      'act'
+      'tr'
+      'bl'
+      'centre';
+    gap: clamp(26px, 5vw, 40px);
+  }
+
+  /*
+    Single column, so the headline is bounded by the viewport minus the 8vw
+    gutters — about 0.84 of the screen width. "remembered for life." needs
+    ~9.25px per 1px of font size, so anything above ~9vw breaks the line and
+    strands "life." on its own. 8.4vw leaves a margin; the 2.1rem floor the
+    two-column layout uses was overflowing at 320px.
+  */
+  .cine__title {
+    font-size: clamp(1.75rem, 8.4vw, 3.4rem);
+  }
+
+  .cine__centre {
+    justify-items: start;
+  }
+}
+
+@media (max-width: 620px) {
+  /*
+    Content height, not viewport height. Forcing 100svh here is exactly what
+    produced the dead band in the previous hero: the frame was taller than its
+    content and the gap had to go somewhere.
+  */
+  .cine {
+    min-height: 0;
+  }
+
+  .cine__frame-grid {
+    padding-top: clamp(88px, 22vw, 108px);
+    gap: 30px;
+  }
+
+  .cine__title {
+    max-width: 100%;
+  }
+
+  /* The badge is a scroll affordance for a mouse. A thumb already knows how to
+     scroll, and the booking bar directly below is the better target. */
+  .cine__centre {
+    display: none;
+  }
+
+  .cine__act {
+    padding-bottom: 36px;
+    gap: 16px;
+  }
+
+  .cine__cta {
+    width: 100%;
+  }
+
+  .cine__frame {
+    object-position: 50% 24%;
+  }
+
+  /* Taller, narrower crop needs more lift under the type than the desktop
+     scrim provides. */
+  .cine__scrim {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(16, 15, 14, 0.9) 0%,
+        rgba(16, 15, 14, 0.55) 22%,
+        rgba(16, 15, 14, 0.62) 55%,
+        rgba(16, 15, 14, 0.88) 100%
+      );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cine__frame,
+  .cine__badge,
+  .cine__badge svg,
+  .cine__cta,
+  .cine__call,
+  .cine__more {
+    transition: none;
+  }
+
+  .cine__frame {
+    transform: none;
+  }
+
+  .cine__badge:hover {
+    transform: none;
+  }
+}

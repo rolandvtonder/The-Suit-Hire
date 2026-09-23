@@ -43,21 +43,20 @@ export default function About() {
       </motion.div>
 
       <motion.div className="about__copy" {...reveal()}>
-        <p className="eyebrow">The man at the tape</p>
-        <h2 className="band__title" id="about-title">
-          Meet <em>David</em>
+        {/* Quieter than .band__title — the page header above is the h1. */}
+        <h2 className="about__heading" id="about-title">
+          What people keep writing about
         </h2>
 
         <p className="band__lede">
-          The Suit Hire is a one-man shop in Suideroord, and David is the one man. He takes the
-          measurements himself, pulls the options himself, and tells you honestly when something is
-          not going to work — which is the part customers keep writing about afterwards.
+          He takes the measurements himself, pulls the options himself, and tells you honestly when
+          something is not going to work. Somebody arrives with a date coming up fast, and leaves
+          properly dressed.
         </p>
 
         <p className="about__body">
-          Read enough of the eighty-five reviews and the same picture keeps forming: somebody
-          arrived with a date coming up fast, and left properly dressed. Half an hour&rsquo;s notice.
-          A perfect fit the same day. Advice that pushed back rather than just agreed.
+          Half an hour&rsquo;s notice. A perfect fit the same day. Advice that pushed back rather
+          than just agreed. It is the same shop every time, because it is the same man every time.
         </p>
 
         {/* A real review, quoted rather than paraphrased into marketing copy —

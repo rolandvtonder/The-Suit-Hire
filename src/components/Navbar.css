@@ -96,11 +96,11 @@
 
 /* The current section is marked with colour *and* a rule, so it is not
    signalled by colour alone. */
-.nav__link[aria-current='true'] {
+.nav__link[aria-current='page'] {
   color: var(--copper-bright);
 }
 
-.nav__link[aria-current='true']::after {
+.nav__link[aria-current='page']::after {
   content: '';
   position: absolute;
   left: 0;
@@ -198,6 +198,11 @@
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   animation: sheet-in 0.3s var(--ease-out) both;
+  /* Seven links plus two actions can outgrow a short phone in landscape, so the
+     sheet is capped and scrolls rather than running off the screen. */
+  max-height: calc(100svh - clamp(80px, 12vw, 140px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .nav__sheet a {
@@ -206,6 +211,19 @@
   text-decoration: none;
   padding: 15px 0;
   border-bottom: 1px solid var(--line-faint);
+}
+
+.nav__sheet a[aria-current='page'] {
+  color: var(--copper-bright);
+}
+
+.nav__sheet-call {
+  border-bottom: 0 !important;
+  /* 15px of inherited padding-top + ~21px of text + this = a 48px target. */
+  padding-bottom: 12px !important;
+  text-align: center;
+  font-size: 14px !important;
+  color: var(--text-muted) !important;
 }
 
 .nav__sheet-cta {
@@ -235,11 +253,11 @@
 /*
   Between roughly 1080 and 1400 the right-hand column outgrows the left one and
   pushes the centred links until they touch it — measured at 0px of clearance
-  at 1100 and 11px at 1280. The phone goes first: the WhatsApp button still
+  at 1100 and 11px at 1280 with five links, and 0px at 1440 with six. The phone goes first: the WhatsApp button still
   covers the same job, and the number itself is repeated in the hero, the visit
   card and the footer, so nothing is actually lost.
 */
-@media (max-width: 1400px) {
+@media (max-width: 1600px) {
   .nav__phone {
     display: none;
   }

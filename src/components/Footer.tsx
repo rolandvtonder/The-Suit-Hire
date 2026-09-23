@@ -1,16 +1,8 @@
 import { Facebook, Instagram, WhatsApp } from './icons'
-import { asset, FACEBOOK, INSTAGRAM, WHATSAPP, PHONE_TEL, PHONE_DISPLAY } from '../site'
+import { asset, url, PAGES, FACEBOOK, INSTAGRAM, WHATSAPP, PHONE_TEL, PHONE_DISPLAY } from '../site'
 import './Footer.css'
 
-const links = [
-  { label: 'Weddings', href: '#weddings' },
-  { label: 'Matric dance', href: '#matric' },
-  { label: 'How it works', href: '#how' },
-  { label: 'Meet David', href: '#about' },
-  { label: 'Reviews', href: '#reviews' },
-  { label: 'Questions', href: '#faq' },
-  { label: 'Visit', href: '#visit' },
-]
+const links = PAGES
 
 export default function Footer() {
   return (
@@ -19,7 +11,7 @@ export default function Footer() {
         {/* The full lettering gets its proper showing here, at a width where
             the script and the flourishes actually read. In the navbar it would
             be 70px wide and illegible. */}
-        <a className="foot__logo" href="#top">
+        <a className="foot__logo" href={url('/')}>
           <img
             src={asset("/logo-mark.png")}
             alt="The Suit Hire — tuxedos and suit rentals"
@@ -32,7 +24,7 @@ export default function Footer() {
 
         <nav className="foot__nav" aria-label="Footer">
           {links.map((link) => (
-            <a key={link.label} href={link.href}>
+            <a key={link.key} href={url(link.href)}>
               {link.label}
             </a>
           ))}

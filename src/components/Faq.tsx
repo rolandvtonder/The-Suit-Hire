@@ -57,9 +57,10 @@ export default function Faq() {
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.7, ease: EASE }}
       >
-        <p className="eyebrow">Before you come in</p>
-        <h2 className="band__title" id="faq-title">
-          The usual <em>questions</em>
+        {/* Quieter than .band__title: the page header above is the h1 and
+            already says "the usual questions". */}
+        <h2 className="faq__heading" id="faq-title">
+          Straight answers
         </h2>
       </motion.div>
 
