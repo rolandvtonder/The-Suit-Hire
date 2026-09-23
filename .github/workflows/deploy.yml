@@ -1,35 +1,40 @@
-# Builds the site and publishes it to GitHub Pages on every push to main.
+# Builds the site and publishes it into the repository root.
 #
-# Without this, Pages serves the repository as-is — which means it hands the
-# browser index.html pointing at /src/main.tsx, a TypeScript module no browser
-# can execute, and the page renders blank. The compiled output in dist/ is what
-# has to be published, and dist/ is deliberately not committed.
+# WHY THE ROOT AND NOT A PAGES ARTIFACT
 #
-# One-time setup in the repository: Settings -> Pages -> Build and deployment
-# -> Source -> "GitHub Actions". Until that is switched over, Pages keeps
-# serving the branch and this workflow's output is ignored.
+# This repository's Pages source is "Deploy from a branch", so every push also
+# triggers GitHub's own legacy pages-build-deployment, which republishes the
+# repository root as-is. Both fire within a couple of seconds of each other and
+# the legacy build wins, so an upload-pages-artifact deploy was being silently
+# overwritten — the site kept serving src/main.tsx, which no browser can run.
+#
+# Rather than fight it, this workflow writes the built site into the root, which
+# is exactly what the legacy builder then publishes.
+#
+# TO SIMPLIFY THIS LATER
+#
+# Set Settings -> Pages -> Build and deployment -> Source to "GitHub Actions".
+# Then the copy-and-commit job below can be replaced with upload-pages-artifact
+# + deploy-pages, and the build output can come out of the repository again.
 
-name: Deploy to GitHub Pages
+name: Build and publish
 
 on:
   push:
     branches: [main]
-  # Lets you re-run a deploy from the Actions tab without pushing a commit.
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
-# Let a running deploy finish rather than cancelling it, but never run two at
-# once — a cancelled deploy can leave the live site half-updated.
+# Never run two publishes at once — a cancelled one can leave the root
+# half-updated, and half a site is worse than a stale one.
 concurrency:
-  group: pages
+  group: publish
   cancel-in-progress: false
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -44,22 +49,35 @@ jobs:
       # dependency version that was never tested locally.
       - run: npm ci
 
-      # Runs `tsc -b && vite build`, so a type error fails the deploy instead
-      # of shipping a broken page.
+      # The checkout still carries the previous deploy's bundle. Clear it before
+      # building so old hashed filenames do not pile up in the tree, and so
+      # nothing in the build reads last deploy's output as input.
+      - name: Clear the previous publish
+        run: rm -rf assets
+
+      # Runs make-pages, then tsc, then vite build — so a type error fails the
+      # deploy instead of publishing a broken page.
       - run: npm run build
 
-      - uses: actions/configure-pages@v5
+      - name: Copy the build into the repository root
+        run: |
+          set -euo pipefail
+          # The trailing /. copies the contents rather than the folder itself.
+          cp -a dist/. .
+          rm -rf dist
 
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Commit if anything changed
+        run: |
+          set -euo pipefail
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'Build output unchanged — nothing to publish.'
+            exit 0
+          fi
+          # [skip ci] stops this workflow re-triggering itself. GitHub's own
+          # pages build is not an Actions workflow, so it still runs on this
+          # push — which is the point: that is what publishes the site.
+          git commit -m "Publish build for ${GITHUB_SHA::7} [skip ci]"
+          git push

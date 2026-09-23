@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/*
+  The built site is committed into the repository root (see the deploy
+  workflow), so a previous deploy's bundle sits at /assets. Tailwind scans the
+  project for class names and happily mines that minified JavaScript for
+  phantom utilities — measured at +2.5kB of CSS on the first deploy, and it
+  compounds, because each build then scans the last one's output.
+*/
+@source not "../assets";
+
 /* ---------------------------------------------------------------------------
    Tokens — sampled directly from logoo.png rather than invented.
 
