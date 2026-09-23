@@ -63,11 +63,17 @@ export default function CinematicHero() {
       <div className="cine__frame-grid">
         {/* Top left — the promise */}
         <div className="cine__quad cine__quad--tl">
+          {/*
+            The spaces between these spans are load-bearing. Each renders as a
+            block, so without them the accessible name comes out as
+            "Hiredfor one dayremembered for life." They collapse to nothing
+            visually between block elements.
+          */}
           <h1 className="cine__title">
-            <span>Hired</span>
+            <span>Hired</span>{' '}
             {/* The one gradient on the page: white falling into the copper of
                 the logo's flourishes. */}
-            <span className="cine__title-glow">for one day</span>
+            <span className="cine__title-glow">for one day</span>{' '}
             <span>remembered for life.</span>
           </h1>
           <p className="cine__lede">
@@ -78,10 +84,9 @@ export default function CinematicHero() {
 
         {/* Top right — what the shop is */}
         <div className="cine__quad cine__quad--tr">
+          {/* Spaces between the spans, for the same reason as the h1 above. */}
           <h2 className="cine__sub">
-            <span>Tuxedos</span>
-            <span>&amp; Suits</span>
-            <span>for Hire</span>
+            <span>Tuxedos</span> <span>&amp; Suits</span> <span>for Hire</span>
           </h2>
           <p className="cine__caps">
             Weddings, matric dances and every occasion that asks for a proper suit. One fitting room
