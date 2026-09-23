@@ -1,0 +1,128 @@
+/* ---------------------------------------------------------------------------
+   FAQ — native details/summary in two columns, separated by hairlines rather
+   than boxed into cards. Keeps the page's outline vocabulary and stops the
+   section from reading as eight more tiles after the review wall.
+   --------------------------------------------------------------------------- */
+
+.faq__list {
+  margin-top: clamp(30px, 3.6vw, 56px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  column-gap: clamp(28px, 4vw, 76px);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--line-faint);
+}
+
+.faq__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  /* Comfortably over the 44px tap-target floor at every size. */
+  padding: clamp(18px, 1.8vw, 24px) 0;
+  font-size: clamp(14.5px, 1.2vw, 17px);
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  transition: color 0.25s var(--ease-out);
+}
+
+/* Suppress the default disclosure triangle in both engines; the chevron
+   replaces it and rotates to carry the same state. */
+.faq__q::-webkit-details-marker {
+  display: none;
+}
+
+.faq__q::marker {
+  content: '';
+}
+
+.faq__q:hover {
+  color: var(--copper-bright);
+}
+
+.faq__chevron {
+  flex: none;
+  color: var(--copper);
+  transition: transform 0.3s var(--ease-out);
+}
+
+.faq__item[open] .faq__q {
+  color: var(--copper-bright);
+}
+
+.faq__item[open] .faq__chevron {
+  transform: rotate(180deg);
+}
+
+.faq__a {
+  padding-bottom: clamp(18px, 1.8vw, 26px);
+  max-width: 56ch;
+}
+
+.faq__a p {
+  font-size: clamp(13.5px, 1.1vw, 16px);
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.faq__item[open] .faq__a {
+  animation: faq-open 0.35s var(--ease-out) both;
+}
+
+@keyframes faq-open {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* Tail ---------------------------------------------------------------------- */
+
+.faq__tail {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.4vw, 20px);
+  flex-wrap: wrap;
+  margin-top: clamp(32px, 3.6vw, 54px);
+  font-size: clamp(14px, 1.15vw, 17px);
+  color: var(--text-soft);
+}
+
+.faq__tail-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 22px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: clamp(11.5px, 1vw, 13px);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out),
+    color 0.3s var(--ease-out);
+}
+
+.faq__tail-cta:hover {
+  border-color: var(--copper-bright);
+  background: var(--copper);
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__chevron,
+  .faq__q,
+  .faq__tail-cta {
+    transition: none;
+  }
+
+  .faq__item[open] .faq__a {
+    animation: none;
+  }
+}

@@ -1,0 +1,141 @@
+/* ---------------------------------------------------------------------------
+   Occasion band — one reusable editorial split, used for Weddings and again
+   for Matric with the columns mirrored. Copy on one side, a four-frame photo
+   mosaic on the other, with one image spanning both rows so the grid has a
+   focal point instead of reading as a contact sheet.
+   --------------------------------------------------------------------------- */
+
+.occasion {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+  gap: clamp(36px, 5vw, 84px);
+  align-items: center;
+}
+
+.occasion--reversed .occasion__copy {
+  order: 2;
+}
+
+.occasion__points {
+  margin-top: clamp(22px, 2.4vw, 34px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(11px, 1.1vw, 15px);
+  list-style: none;
+  max-width: 48ch;
+}
+
+.occasion__points li {
+  position: relative;
+  padding-left: 26px;
+  font-size: clamp(13.5px, 1.1vw, 16px);
+  line-height: 1.55;
+  color: var(--text-soft);
+}
+
+/* A copper rule rather than a bullet glyph — same hairline vocabulary as the
+   step rail and the section eyebrows. */
+.occasion__points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 14px;
+  height: 1px;
+  background: var(--copper);
+}
+
+.occasion__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(26px, 2.8vw, 40px);
+  padding: 14px 26px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: clamp(11.5px, 1vw, 13.5px);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out),
+    color 0.3s var(--ease-out);
+}
+
+.occasion__cta:hover {
+  border-color: var(--copper-bright);
+  background: var(--copper);
+  color: var(--ink);
+}
+
+/* Mosaic -------------------------------------------------------------------- */
+
+.occasion__mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: clamp(150px, 19vw, 260px);
+  gap: clamp(10px, 1.1vw, 16px);
+}
+
+.shot {
+  position: relative;
+  overflow: hidden;
+  border-radius: clamp(6px, 0.6vw, 10px);
+  /* The hairline keeps a dark photograph from bleeding into the dark page. */
+  border: 1px solid var(--line-faint);
+  background: var(--ink-plate);
+}
+
+/* See the arithmetic note in Occasion.tsx before changing either of these. */
+.shot--lead {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.shot--tall {
+  grid-row: span 2;
+}
+
+.shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  transition: transform 0.7s var(--ease-out);
+}
+
+.shot:hover img {
+  transform: scale(1.04);
+}
+
+/* Responsive ----------------------------------------------------------------- */
+
+@media (max-width: 960px) {
+  .occasion {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(30px, 5vw, 48px);
+  }
+
+  /* Copy always leads on a narrow screen, whichever way the desktop band is
+     mirrored — the reader should never meet four photographs before they know
+     what section they are in. */
+  .occasion--reversed .occasion__copy {
+    order: 0;
+  }
+
+  .occasion__mosaic {
+    grid-auto-rows: clamp(140px, 30vw, 210px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shot img,
+  .occasion__cta {
+    transition: none;
+  }
+
+  .shot:hover img {
+    transform: none;
+  }
+}

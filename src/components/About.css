@@ -1,0 +1,116 @@
+/* ---------------------------------------------------------------------------
+   Meet David — photographs left, copy right, with a real review set as a
+   pull-quote at the foot of the column. The frames deliberately step out of
+   alignment so the group reads as things laid on a table rather than a grid.
+   --------------------------------------------------------------------------- */
+
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.98fr);
+  gap: clamp(36px, 5vw, 88px);
+  align-items: center;
+}
+
+.about__frames {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 1.1vw, 16px);
+}
+
+.about__shot {
+  overflow: hidden;
+  border-radius: clamp(6px, 0.6vw, 10px);
+  border: 1px solid var(--line-faint);
+  background: var(--ink-plate);
+  aspect-ratio: 4 / 5;
+}
+
+.about__shot--lead {
+  grid-column: span 2;
+  aspect-ratio: 16 / 11;
+}
+
+.about__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 32%;
+  transition: transform 0.7s var(--ease-out);
+}
+
+.about__shot:hover img {
+  transform: scale(1.04);
+}
+
+.about__body {
+  margin-top: clamp(14px, 1.4vw, 20px);
+  max-width: 54ch;
+  font-size: clamp(14px, 1.15vw, 17px);
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* Pull-quote ---------------------------------------------------------------- */
+
+.about__quote {
+  margin-top: clamp(26px, 3vw, 42px);
+  padding-left: clamp(18px, 2vw, 28px);
+  border-left: 2px solid var(--copper);
+}
+
+.about__stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--copper-bright);
+  margin-bottom: 12px;
+}
+
+.about__quote blockquote {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(17px, 1.7vw, 25px);
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--text);
+  max-width: 34ch;
+}
+
+.about__quote blockquote::before {
+  content: '\201C';
+}
+
+.about__quote blockquote::after {
+  content: '\201D';
+}
+
+.about__quote figcaption {
+  margin-top: clamp(12px, 1.2vw, 18px);
+  font-size: clamp(12px, 1vw, 14px);
+  color: var(--text-muted);
+}
+
+.about__quote-src {
+  color: var(--copper-bright);
+}
+
+/* Responsive ----------------------------------------------------------------- */
+
+@media (max-width: 960px) {
+  .about {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(30px, 5vw, 44px);
+  }
+
+  .about__frames {
+    order: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about__shot img {
+    transition: none;
+  }
+
+  .about__shot:hover img {
+    transform: none;
+  }
+}

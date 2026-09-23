@@ -1,0 +1,11 @@
+node_modules
+dist
+*.local
+.DS_Store
+
+# Third-party press photographs that were reposted on the business Instagram.
+# ig-02 is a press photo of Paul Newman; ig-05 is one of Marlon Brando and
+# Frank Sinatra. They are not The Suit Hire's own work and are not used on the
+# site — keeping them out of a public repository too. See README.md.
+Mediaa/instagram/ig-02.jpg
+Mediaa/instagram/ig-05.jpg

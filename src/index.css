@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Tokens — sampled directly from logoo.png rather than invented.
+
+   The logo is white lettering with copper flourishes on a near-black field.
+   A pixel census of the artwork put the plate at #202020, the lettering at
+   #f8f8f8, and the chromatic flourishes in a tight band around #b4805c with
+   highlights reaching #c08c6c. The site deepens the plate to #141311 so the
+   copper reads warmer against it and photographs sit on a true black-brown
+   rather than a flat grey.
+
+   Every surface is either the ink field or a hairline outline. The only two
+   filled surfaces on the whole page are the CTA icon tiles and the photos.
+   --------------------------------------------------------------------------- */
+:root {
+  --ink: #141311;
+  --ink-raised: #1c1a17;
+  --ink-plate: #202020;
+
+  --copper: #b4805c;
+  --copper-bright: #c99b72;
+  --copper-deep: #8c5f40;
+
+  --text: #ffffff;
+  --text-soft: rgba(255, 255, 255, 0.92);
+  --text-muted: rgba(255, 255, 255, 0.72);
+
+  /* Copper-tinted hairlines keep the outline vocabulary on-brand; a neutral
+     white rule reads cold against the warm photography. */
+  --line: rgba(201, 155, 114, 0.42);
+  --line-soft: rgba(201, 155, 114, 0.22);
+  --line-faint: rgba(255, 255, 255, 0.12);
+
+  --gutter: clamp(20px, 8vw, 116px);
+  --section-pad: clamp(72px, 10vw, 148px);
+
+  --ease-out: cubic-bezier(0.22, 0.68, 0.32, 1);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Fixed navbar would otherwise cover the top of an anchored section. */
+    scroll-padding-top: clamp(66px, 9.4vw, 120px);
+  }
+
+  body {
+    font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--ink);
+    color: var(--text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis-weight: none;
+  }
+
+  #root {
+    width: 100%;
+    min-height: 100svh;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Copper ring rather than the browser default — visible on ink and on
+     photography, and it carries the brand instead of fighting it. */
+  :focus-visible {
+    outline: 2px solid var(--copper-bright);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* Shared section furniture ---------------------------------------------------
+   Every band below the hero shares one eyebrow + serif-heading lockup, so the
+   page reads as one document rather than a stack of unrelated blocks. */
+
+.band {
+  position: relative;
+  padding: var(--section-pad) var(--gutter);
+  border-top: 1px solid var(--line-faint);
+}
+
+.band--raised {
+  background: var(--ink-raised);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(11px, 0.85vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--copper-bright);
+}
+
+.eyebrow::before {
+  content: '';
+  width: clamp(18px, 2vw, 30px);
+  height: 1px;
+  background: var(--copper);
+}
+
+.band__title {
+  margin-top: clamp(14px, 1.6vw, 22px);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.9rem, 4.1vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.band__title em {
+  font-style: italic;
+  color: var(--copper-bright);
+}
+
+.band__lede {
+  margin-top: clamp(14px, 1.6vw, 22px);
+  max-width: 56ch;
+  font-size: clamp(14px, 1.15vw, 17px);
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+
+/*
+  Hit-area expansion for small standalone links — phone numbers, the map link,
+  the Google link. Each is only ~21px tall as drawn, which is fine to read and
+  poor to hit with a thumb. The pseudo-element grows the target to about 45px
+  without moving the text or the underline. Only used where the nearest other
+  target is more than 12px away, so no two hit areas overlap.
+*/
+.tap-out {
+  position: relative;
+}
+
+.tap-out::after {
+  content: '';
+  position: absolute;
+  inset: -12px -8px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 200;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: var(--copper);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

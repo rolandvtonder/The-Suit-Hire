@@ -1,0 +1,380 @@
+/* ---------------------------------------------------------------------------
+   Hero — the reference composition: copy stacked down the left ~45% of the
+   frame, the photograph holding the right on its own, and a four-card step
+   rail along the floor. The only filled surfaces are the CTA tile and the
+   photograph itself.
+
+   Resolution note: the source photographs are 640px on their long edge, which
+   is all Instagram serves publicly. Running one full-bleed across a 1440px
+   frame would upscale it 2.25x and show it. Confining it to the right column
+   keeps the displayed width near native, so it stays sharp.
+   --------------------------------------------------------------------------- */
+
+.hero {
+  /* 44% rather than half: the copy column needs room for "Remembered For
+     Life" to hold one line at display size, and the first ~18% of the photo
+     panel is solid ink under the scrim anyway, so the two may overlap there
+     without the type ever landing on the photograph. */
+  --photo-w: 44%;
+
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+/* Media -------------------------------------------------------------------- */
+
+.hero__media {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: var(--photo-w);
+  z-index: 0;
+}
+
+.hero__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 32%;
+}
+
+/*
+  Two jobs. The horizontal pass dissolves the left edge of the photograph into
+  the ink so there is no visible seam between column and image — the picture
+  looks set into the page rather than pasted beside it. The vertical pass
+  darkens top and bottom so the fixed navbar and the step rail both keep their
+  contrast wherever the photograph happens to be bright.
+*/
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      var(--ink) 0%,
+      rgba(20, 19, 17, 0.92) 18%,
+      rgba(20, 19, 17, 0.55) 42%,
+      rgba(20, 19, 17, 0.18) 68%,
+      rgba(20, 19, 17, 0.28) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(20, 19, 17, 0.72) 0%,
+      rgba(20, 19, 17, 0.1) 26%,
+      rgba(20, 19, 17, 0.12) 62%,
+      rgba(20, 19, 17, 0.8) 100%
+    );
+}
+
+/* Frame -------------------------------------------------------------------- */
+
+.hero__frame {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding: clamp(104px, 14vw, 190px) var(--gutter) clamp(28px, 3.4vw, 52px);
+}
+
+.hero__copy {
+  max-width: min(760px, 54vw);
+}
+
+/* Proof row ----------------------------------------------------------------- */
+
+.proof {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1vw, 15px);
+  flex-wrap: wrap;
+}
+
+.proof__faces {
+  display: flex;
+  flex: none;
+}
+
+.proof__face {
+  display: grid;
+  place-items: center;
+  width: clamp(34px, 3.2vw, 46px);
+  height: clamp(34px, 3.2vw, 46px);
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  font-size: clamp(11px, 1.05vw, 14px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.proof__face + .proof__face {
+  margin-left: clamp(-16px, -1.1vw, -10px);
+}
+
+.proof__text {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: clamp(12.5px, 1.18vw, 16px);
+  color: var(--text-soft);
+}
+
+.proof__stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--copper-bright);
+}
+
+/* Headline ------------------------------------------------------------------ */
+
+/*
+  Both ends of this clamp are set by the longer of the two lines, not by taste.
+  "Remembered For Life" measures ~9.75px of width per 1px of font size in
+  Playfair, less about 0.015em per gap for the tracking. At the 4.8rem ceiling
+  that is ~719px inside a 760px column; at the 1.7rem floor it is ~257px inside
+  the ~269px a 320px phone leaves after gutters. Widen either end and the line
+  breaks, which orphans the word "Life" on a line of its own.
+*/
+.hero__title {
+  margin-top: clamp(16px, 1.9vw, 28px);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.7rem, 5.2vw, 4.8rem);
+  font-weight: 400;
+  line-height: 1.07;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.hero__line {
+  display: block;
+}
+
+/* The single typographic gesture on the page: one italic phrase, in copper,
+   picked up from the flourishes in the logo. It is not repeated on line two. */
+.hero__title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--copper-bright);
+}
+
+.hero__lede {
+  margin-top: clamp(14px, 1.7vw, 26px);
+  max-width: clamp(280px, 34vw, 480px);
+  font-size: clamp(14px, 1.18vw, 17px);
+  line-height: 1.65;
+  color: var(--text-soft);
+}
+
+/* CTA ----------------------------------------------------------------------- */
+
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.6vw, 26px);
+  flex-wrap: wrap;
+  margin-top: clamp(24px, 2.8vw, 42px);
+}
+
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  padding-block: clamp(6px, 0.6vw, 9px);
+  padding-left: clamp(8px, 0.9vw, 12px);
+  padding-right: clamp(20px, 1.8vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out);
+}
+
+.hero__cta:hover {
+  border-color: var(--copper-bright);
+  background: rgba(180, 128, 92, 0.14);
+}
+
+.hero__cta-tile {
+  display: grid;
+  place-items: center;
+  width: clamp(38px, 3.3vw, 48px);
+  height: clamp(38px, 3.3vw, 48px);
+  border-radius: 999px;
+  background: var(--copper);
+  color: var(--ink);
+  flex: none;
+}
+
+.hero__cta-label {
+  margin-left: clamp(13px, 1.25vw, 19px);
+  font-size: clamp(11.5px, 1.05vw, 14px);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hero__call {
+  font-size: clamp(13px, 1.05vw, 15px);
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-soft);
+  padding-bottom: 2px;
+  transition: color 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+}
+
+.hero__call:hover {
+  color: var(--copper-bright);
+  border-bottom-color: var(--copper);
+}
+
+/* Step rail ------------------------------------------------------------------ */
+
+.steps {
+  margin-top: auto;
+  padding-top: clamp(44px, 6vw, 92px);
+}
+
+/* The rail is self-explanatory to a sighted reader, but a screen reader
+   arriving at four bare list items needs the framing. */
+.steps__heading {
+  font-size: clamp(11px, 0.85vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--copper-bright);
+  margin-bottom: clamp(14px, 1.4vw, 20px);
+}
+
+.steps__list {
+  display: flex;
+  gap: clamp(8px, 0.9vw, 14px);
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  width: clamp(76px, 8.4vw, 124px);
+}
+
+.step__card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  /* min-height, not height: between about 680 and 1000px the cards are narrow
+     enough that "Choose your look" wraps to three lines, and a fixed height
+     pushes the label straight out of the box. */
+  min-height: clamp(68px, 6.8vw, 98px);
+  padding: clamp(9px, 0.95vw, 14px);
+  border: 1px solid var(--line-soft);
+  border-radius: clamp(5px, 0.5vw, 7px);
+  transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out);
+}
+
+.step:hover .step__card {
+  border-color: var(--copper);
+  background: rgba(180, 128, 92, 0.1);
+}
+
+.step__card svg {
+  width: clamp(18px, 1.8vw, 26px);
+  height: clamp(18px, 1.8vw, 26px);
+  color: var(--copper-bright);
+}
+
+.step__label {
+  font-size: clamp(12px, 0.88vw, 13px);
+  color: var(--text);
+  line-height: 1.25;
+}
+
+.step__dash {
+  width: clamp(10px, 1vw, 15px);
+  height: 1px;
+  background: var(--copper);
+  margin-top: clamp(8px, 0.9vw, 13px);
+}
+
+.step__num {
+  margin-top: clamp(5px, 0.6vw, 9px);
+  font-size: clamp(12px, 0.88vw, 13px);
+  /* Tabular figures so 01–04 sit on an even rhythm across the rail. */
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+/* Responsive ----------------------------------------------------------------- */
+
+@media (max-width: 1000px) {
+  /* Below this the split stops working — the copy column gets too narrow for
+     the display type. The photograph goes full-bleed behind everything and the
+     scrim takes over the job of keeping the type readable. */
+  .hero {
+    --photo-w: 100%;
+  }
+
+  .hero__photo {
+    object-position: 50% 26%;
+  }
+
+  .hero__scrim {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(20, 19, 17, 0.9) 0%,
+        rgba(20, 19, 17, 0.78) 55%,
+        rgba(20, 19, 17, 0.7) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(20, 19, 17, 0.86) 0%,
+        rgba(20, 19, 17, 0.5) 34%,
+        rgba(20, 19, 17, 0.72) 74%,
+        rgba(20, 19, 17, 0.94) 100%
+      );
+  }
+
+  .hero__copy {
+    max-width: 100%;
+  }
+
+  .hero__lede {
+    max-width: 44ch;
+  }
+}
+
+@media (max-width: 680px) {
+  /* Four cards will not sit side by side at phone width without shrinking the
+     labels past legibility, so the rail wraps to a 2x2 block instead. */
+  .steps__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .step {
+    width: auto;
+  }
+
+  .hero__actions {
+    gap: 16px;
+  }
+
+  .hero__cta {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__cta,
+  .hero__call,
+  .step__card {
+    transition: none;
+  }
+}

@@ -1,0 +1,198 @@
+/* ---------------------------------------------------------------------------
+   Visit — the closing band. Copy left, two outlined cards right carrying the
+   address and the trading hours. Today's row is picked out in the table so the
+   answer to "are they open now" is the first thing the eye lands on.
+   --------------------------------------------------------------------------- */
+
+.visit {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
+  gap: clamp(36px, 5vw, 84px);
+  align-items: center;
+}
+
+.visit__actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.8vw, 28px);
+  flex-wrap: wrap;
+  margin-top: clamp(26px, 3vw, 42px);
+}
+
+.visit__cta {
+  display: inline-flex;
+  align-items: center;
+  padding-block: clamp(6px, 0.6vw, 9px);
+  padding-left: clamp(8px, 0.9vw, 12px);
+  padding-right: clamp(20px, 1.8vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out);
+}
+
+.visit__cta:hover {
+  border-color: var(--copper-bright);
+  background: rgba(180, 128, 92, 0.14);
+}
+
+.visit__cta-tile {
+  display: grid;
+  place-items: center;
+  width: clamp(38px, 3.2vw, 46px);
+  height: clamp(38px, 3.2vw, 46px);
+  border-radius: 999px;
+  background: var(--copper);
+  color: var(--ink);
+  flex: none;
+}
+
+.visit__cta-label {
+  margin-left: clamp(13px, 1.2vw, 18px);
+  font-size: clamp(11.5px, 1vw, 13.5px);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.visit__call {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: clamp(14px, 1.15vw, 17px);
+  color: var(--text-soft);
+  text-decoration: none;
+  transition: color 0.25s var(--ease-out);
+}
+
+.visit__call:hover {
+  color: var(--copper-bright);
+}
+
+/* Cards --------------------------------------------------------------------- */
+
+.visit__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: clamp(12px, 1.3vw, 20px);
+}
+
+.visit__card {
+  padding: clamp(22px, 2.2vw, 34px);
+  border: 1px solid var(--line-soft);
+  border-radius: clamp(8px, 0.8vw, 12px);
+  background: rgba(32, 32, 32, 0.4);
+}
+
+.visit__card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(11px, 0.85vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--copper-bright);
+}
+
+.visit__address {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: clamp(16px, 1.6vw, 22px);
+  font-style: normal;
+  font-size: clamp(14px, 1.15vw, 17px);
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+
+.visit__map {
+  display: inline-block;
+  margin-top: clamp(16px, 1.6vw, 22px);
+  padding-bottom: 3px;
+  font-size: clamp(12.5px, 1.05vw, 14.5px);
+  color: var(--copper-bright);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-soft);
+  transition: border-color 0.3s var(--ease-out);
+}
+
+.visit__map:hover {
+  border-bottom-color: var(--copper-bright);
+}
+
+/* Hours table --------------------------------------------------------------- */
+
+.visit__hours {
+  width: 100%;
+  margin-top: clamp(14px, 1.4vw, 20px);
+  border-collapse: collapse;
+}
+
+.visit__hours-caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.visit__hours th,
+.visit__hours td {
+  padding: clamp(6px, 0.6vw, 9px) 0;
+  font-size: clamp(12.5px, 1.02vw, 14.5px);
+  font-weight: 400;
+  text-align: left;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--line-faint);
+}
+
+.visit__hours td {
+  text-align: right;
+  /* Lining figures keep the time column on a single optical edge. */
+  font-variant-numeric: tabular-nums;
+}
+
+.visit__hours tr:last-child th,
+.visit__hours tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Today gets weight and colour, and the row label also gains the word "today"
+   in the markup — so it is not flagged by colour alone. */
+.visit__hours tr.is-today th,
+.visit__hours tr.is-today td {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.visit__today {
+  color: var(--copper-bright);
+  font-weight: 400;
+}
+
+/* Responsive ----------------------------------------------------------------- */
+
+@media (max-width: 960px) {
+  .visit {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(30px, 5vw, 44px);
+  }
+}
+
+@media (max-width: 620px) {
+  .visit__cta {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .visit__cta,
+  .visit__call,
+  .visit__map {
+    transition: none;
+  }
+}

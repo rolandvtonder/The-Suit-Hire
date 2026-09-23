@@ -1,0 +1,133 @@
+/* ---------------------------------------------------------------------------
+   Footer — the one place the full logo artwork runs at a size where its
+   lettering and flourishes are readable, with the section links and the three
+   ways of reaching David underneath.
+   --------------------------------------------------------------------------- */
+
+.foot {
+  padding: clamp(56px, 7vw, 104px) var(--gutter) clamp(28px, 3vw, 44px);
+  border-top: 1px solid var(--line-faint);
+  background: var(--ink-plate);
+}
+
+.foot__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: clamp(32px, 5vw, 80px);
+  flex-wrap: wrap;
+}
+
+.foot__logo {
+  display: block;
+  flex: none;
+}
+
+.foot__logo img {
+  /* logo-mark.png is the supplied artwork with its plate keyed out, so it sits
+     on the footer surface with no visible rectangle. The original flat-plate
+     file is kept at /logo.png for anywhere a solid background is wanted. */
+  width: clamp(230px, 27vw, 400px);
+  height: auto;
+}
+
+.foot__nav {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  /* Row gap is small because the padding on each link supplies the spacing —
+     seven 20px links on a 30px pitch is a mis-tap waiting to happen. */
+  gap: 2px clamp(28px, 4vw, 64px);
+}
+
+.foot__nav a {
+  padding-block: 12px;
+  font-size: clamp(13px, 1.05vw, 15px);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.25s var(--ease-out);
+}
+
+.foot__nav a:hover {
+  color: var(--copper-bright);
+}
+
+/* Bar ----------------------------------------------------------------------- */
+
+.foot__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(18px, 3vw, 40px);
+  flex-wrap: wrap;
+  margin-top: clamp(40px, 5vw, 72px);
+  padding-top: clamp(20px, 2.2vw, 30px);
+  border-top: 1px solid var(--line-faint);
+}
+
+.foot__legal {
+  font-size: clamp(11.5px, 0.95vw, 13.5px);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.foot__social {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 0.8vw, 12px);
+}
+
+.foot__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 44px tap target around an 18px glyph. */
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--line-soft);
+  color: var(--text-soft);
+  transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out),
+    background 0.3s var(--ease-out);
+}
+
+.foot__icon:hover {
+  border-color: var(--copper);
+  background: rgba(180, 128, 92, 0.12);
+  color: var(--copper-bright);
+}
+
+.foot__phone {
+  margin-left: clamp(6px, 0.8vw, 12px);
+  padding-block: 12px;
+  font-size: clamp(13px, 1.05vw, 15px);
+  color: var(--text-soft);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.25s var(--ease-out);
+}
+
+.foot__phone:hover {
+  color: var(--copper-bright);
+}
+
+/* Responsive ----------------------------------------------------------------- */
+
+@media (max-width: 720px) {
+  .foot__nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .foot__bar {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .foot__nav a,
+  .foot__icon,
+  .foot__phone {
+    transition: none;
+  }
+}
