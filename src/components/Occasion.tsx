@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
 import { WhatsApp } from './icons'
-import { WHATSAPP } from '../site'
+import { asset, WHATSAPP } from '../site'
 import './Occasion.css'
 
 const EASE = [0.22, 0.68, 0.32, 1] as const
@@ -99,7 +99,7 @@ export default function Occasion({
             className={`shot${photo.lead ? ' shot--lead' : ''}${photo.tall ? ' shot--tall' : ''}`}
             key={photo.src}
           >
-            <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+            <img src={asset(photo.src)} alt={photo.alt} loading="lazy" decoding="async" />
           </figure>
         ))}
       </motion.div>

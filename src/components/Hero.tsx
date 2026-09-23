@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { WhatsApp, Star, StepMessage, StepTape, StepHanger, StepBowtie } from './icons'
-import { WHATSAPP, PHONE_TEL, PHONE_DISPLAY, RATING, REVIEW_COUNT } from '../site'
+import { asset, WHATSAPP, PHONE_TEL, PHONE_DISPLAY, RATING, REVIEW_COUNT } from '../site'
 import './Hero.css'
 
 const EASE = [0.22, 0.68, 0.32, 1] as const
@@ -32,7 +32,7 @@ export default function Hero() {
       <div className="hero__media" aria-hidden="true">
         <img
           className="hero__photo"
-          src="/photos/portrait-tux.jpg"
+          src={asset("/photos/portrait-tux.jpg")}
           alt=""
           width={512}
           height={640}

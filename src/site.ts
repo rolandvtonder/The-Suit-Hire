@@ -6,6 +6,18 @@
    here means a change is one edit, not a search-and-replace.
    --------------------------------------------------------------------------- */
 
+/*
+  Vite rewrites asset URLs it can see — the ones in index.html and in CSS url()
+  — to sit under `base`. It cannot rewrite a path written as a string inside a
+  component, so "/photos/hero-party.jpg" would stay absolute and 404 on GitHub
+  Pages, which serves this site from /The-Suit-Hire/.
+
+  Every runtime reference to something in public/ goes through here instead.
+  BASE_URL is whatever `base` is set to in vite.config.ts, so this keeps working
+  if the site moves to its own domain and base goes back to '/'.
+*/
+export const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
+
 export const PHONE_DISPLAY = '083 852 0155'
 export const PHONE_TEL = '+27838520155'
 

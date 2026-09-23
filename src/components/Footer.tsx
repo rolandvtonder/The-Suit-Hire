@@ -1,5 +1,5 @@
 import { Facebook, Instagram, WhatsApp } from './icons'
-import { FACEBOOK, INSTAGRAM, WHATSAPP, PHONE_TEL, PHONE_DISPLAY } from '../site'
+import { asset, FACEBOOK, INSTAGRAM, WHATSAPP, PHONE_TEL, PHONE_DISPLAY } from '../site'
 import './Footer.css'
 
 const links = [
@@ -21,7 +21,7 @@ export default function Footer() {
             be 70px wide and illegible. */}
         <a className="foot__logo" href="#top">
           <img
-            src="/logo-mark.png"
+            src={asset("/logo-mark.png")}
             alt="The Suit Hire — tuxedos and suit rentals"
             width={902}
             height={537}

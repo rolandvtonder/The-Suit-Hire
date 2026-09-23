@@ -1,0 +1,65 @@
+# Builds the site and publishes it to GitHub Pages on every push to main.
+#
+# Without this, Pages serves the repository as-is — which means it hands the
+# browser index.html pointing at /src/main.tsx, a TypeScript module no browser
+# can execute, and the page renders blank. The compiled output in dist/ is what
+# has to be published, and dist/ is deliberately not committed.
+#
+# One-time setup in the repository: Settings -> Pages -> Build and deployment
+# -> Source -> "GitHub Actions". Until that is switched over, Pages keeps
+# serving the branch and this workflow's output is ignored.
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Lets you re-run a deploy from the Actions tab without pushing a commit.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it, but never run two at
+# once — a cancelled deploy can leave the live site half-updated.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # `npm ci` rather than `npm install`: it installs exactly what
+      # package-lock.json pins, so a deploy cannot quietly pick up a new
+      # dependency version that was never tested locally.
+      - run: npm ci
+
+      # Runs `tsc -b && vite build`, so a type error fails the deploy instead
+      # of shipping a broken page.
+      - run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -23,9 +23,32 @@ npm run lint
 
 ## Putting it online
 
-`npm run build` produces a `dist/` folder of plain static files. Drag that folder onto
-[Netlify Drop](https://app.netlify.com/drop) or connect the repo to Netlify, Vercel or
-Cloudflare Pages — there is no server or database, so any static host works.
+Live at **https://rolandvtonder.github.io/The-Suit-Hire/**, deployed automatically by
+`.github/workflows/deploy.yml` on every push to `main`.
+
+**One-time setup:** in the repository, go to **Settings → Pages → Build and deployment**
+and set **Source** to **GitHub Actions**. While that is left on "Deploy from a branch",
+Pages serves the repository as-is — which hands the browser an `index.html` pointing at
+`/src/main.tsx`, a TypeScript module no browser can run, and the page comes up blank.
+The compiled output in `dist/` is what has to be published, and `dist/` is deliberately
+not committed.
+
+After that, pushing to `main` is the whole deploy. Progress shows in the Actions tab.
+
+### Moving to a custom domain later
+
+GitHub Pages serves this from a subdirectory, so `vite.config.ts` sets
+`base: '/The-Suit-Hire/'`. On a custom domain the site sits at the root instead, so:
+
+1. Set `base` back to `'/'` in `vite.config.ts`.
+2. Update the four absolute URLs in `index.html` (canonical, `og:url`, `og:image`, and
+   `url`/`image` in the structured data).
+
+Nothing else changes — every runtime asset path goes through the `asset()` helper in
+`src/site.ts`, which reads `base` at build time.
+
+The build is plain static files, so it will also run on Netlify, Vercel or Cloudflare
+Pages if you ever want to move: build command `npm run build`, publish directory `dist`.
 
 ## What to change, and where
 

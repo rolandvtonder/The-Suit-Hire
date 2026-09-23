@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Star } from './icons'
+import { asset } from '../site'
 import './About.css'
 
 const EASE = [0.22, 0.68, 0.32, 1] as const
@@ -17,7 +18,7 @@ export default function About() {
       <motion.div className="about__frames" {...reveal(0.1)}>
         <figure className="about__shot about__shot--lead">
           <img
-            src="/photos/detail-accessories.jpg"
+            src={asset("/photos/detail-accessories.jpg")}
             alt="Close detail of a navy lapel with a red knitted tie, red bow-tie lapel pin and matching polka-dot pocket square."
             loading="lazy"
             decoding="async"
@@ -25,7 +26,7 @@ export default function About() {
         </figure>
         <figure className="about__shot">
           <img
-            src="/photos/range-grey.jpg"
+            src={asset("/photos/range-grey.jpg")}
             alt="A light grey three-piece suit worn with a red tie and pocket square."
             loading="lazy"
             decoding="async"
@@ -33,7 +34,7 @@ export default function About() {
         </figure>
         <figure className="about__shot">
           <img
-            src="/photos/wedding-navy.jpg"
+            src={asset("/photos/wedding-navy.jpg")}
             alt="Two men in navy three-piece suits with buttonholes, photographed at a garden wedding venue."
             loading="lazy"
             decoding="async"

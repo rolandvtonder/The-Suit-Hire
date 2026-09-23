@@ -11,8 +11,9 @@
       name="description"
       content="Tuxedo and suit hire for weddings, matric dances and formal occasions. Fitted in person by David in Suideroord, Johannesburg South. 5.0 from 85 Google reviews."
     />
-    <!-- TODO: replace with the real domain once it is registered. -->
-    <link rel="canonical" href="https://thesuithire.co.za/" />
+    <!-- TODO: when a custom domain is registered, change these four absolute
+         URLs and set `base` back to '/' in vite.config.ts. -->
+    <link rel="canonical" href="https://rolandvtonder.github.io/The-Suit-Hire/" />
 
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="business.business" />
@@ -21,7 +22,12 @@
       property="og:description"
       content="Hired for one day. Remembered for life. Suits and tuxedos fitted in person by David in Suideroord."
     />
-    <meta property="og:image" content="/photos/hero-party.jpg" />
+    <!-- Social scrapers do not resolve relative paths, so these stay absolute. -->
+    <meta property="og:url" content="https://rolandvtonder.github.io/The-Suit-Hire/" />
+    <meta
+      property="og:image"
+      content="https://rolandvtonder.github.io/The-Suit-Hire/photos/hero-party.jpg"
+    />
     <meta property="og:locale" content="en_ZA" />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -44,7 +50,8 @@
         "@type": "ClothingStore",
         "name": "The Suit Hire",
         "description": "Tuxedo and suit rentals for weddings, matric dances and formal occasions in Johannesburg South.",
-        "image": "/logo.png",
+        "url": "https://rolandvtonder.github.io/The-Suit-Hire/",
+        "image": "https://rolandvtonder.github.io/The-Suit-Hire/logo.png",
         "telephone": "+27838520155",
         "address": {
           "@type": "PostalAddress",
