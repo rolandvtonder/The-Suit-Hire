@@ -52,13 +52,36 @@ favicon, viewport, structured data) identical across every page by construction.
 
 ## Putting it online
 
-Live at **https://rolandvtonder.github.io/The-Suit-Hire/**, deployed automatically by
-`.github/workflows/deploy.yml` on every push to `main`. Progress shows in the Actions tab.
+Live at **https://rolandvtonder.github.io/The-Suit-Hire/**, published automatically on
+every push to `main`. Progress shows in the Actions tab.
 
-If Pages ever stops serving the built site, check **Settings → Pages → Build and
-deployment → Source** is set to **GitHub Actions**. On "Deploy from a branch" it serves
-the repository as-is, which hands the browser an `index.html` pointing at
-`/src/main.tsx` — a TypeScript module no browser can run — and the page comes up blank.
+### Why the build is committed to the repository root
+
+This repository's Pages source is **"Deploy from a branch"**, so every push triggers
+GitHub's own legacy `pages build and deployment`, which republishes the repository root
+as-is. An `upload-pages-artifact` deploy was being silently overwritten by it — both
+fired within two seconds of each other and the legacy build won, so the site kept
+serving `src/main.tsx`, which no browser can run, and came up blank while the workflow
+reported success.
+
+So `.github/workflows/deploy.yml` writes the built site **into the repository root** and
+commits it, and the legacy builder publishes that. Two consequences worth knowing:
+
+- **The HTML files in the root are build output, not source.** `npm run dev` and
+  `npm run build` both run `npm run pages` first, which regenerates the real entry points
+  before Vite sees them. Do not edit the root HTML by hand.
+- **`assets/` in the root is the committed bundle.** `src/index.css` has a
+  `@source not "../assets"` rule because Tailwind would otherwise scan the previous
+  deploy's minified JavaScript for class names — that added 2.5kB of phantom CSS and
+  compounded on every deploy.
+
+**To simplify all of this:** set **Settings → Pages → Build and deployment → Source** to
+**GitHub Actions**. The workflow can then go back to `upload-pages-artifact` +
+`deploy-pages`, the build output can come out of the repository, and the two notes above
+stop applying. The workflow file says the same at the top.
+
+One trap: do not write the literal skip-ci token in a commit message, even inside prose.
+GitHub reads it as a directive and skips the build for that push.
 
 ### Moving to a custom domain later
 
