@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { WhatsApp, Star, ArrowDown } from './icons'
+import { WhatsApp, Star } from './icons'
 import { asset, url, WHATSAPP, PHONE_TEL, PHONE_DISPLAY, RATING, REVIEW_COUNT } from '../site'
 import './CinematicHero.css'
 
 /*
   A documentary-style frame: one full-viewport picture with four editorial
-  blocks pinned to its corners and a circular badge at the seam.
+  blocks pinned to its corners.
 
   The reference does this with autoplaying video. There is no footage of this
   shop — only stills — so the backdrop is a slow crossfade between four of
@@ -92,14 +92,6 @@ export default function CinematicHero() {
             Weddings, matric dances and every occasion that asks for a proper suit. One fitting room
             in Suideroord, one man behind the tape.
           </p>
-        </div>
-
-        {/* Centre — the seam badge */}
-        <div className="cine__centre">
-          <a className="cine__badge" href="#start">
-            <span>Explore</span>
-            <ArrowDown />
-          </a>
         </div>
 
         {/* Bottom left — the pitch and the way in */}

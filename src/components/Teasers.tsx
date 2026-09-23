@@ -35,7 +35,7 @@ const cards = [
 
 export default function Teasers() {
   return (
-    <section className="band teasers" id="start" aria-labelledby="teasers-title">
+    <section className="band teasers" aria-labelledby="teasers-title">
       <motion.div
         initial={{ opacity: 0, y: 22 }}
         whileInView={{ opacity: 1, y: 0 }}
